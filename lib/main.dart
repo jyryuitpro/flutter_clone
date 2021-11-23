@@ -25,10 +25,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: 100,
-              color: Colors.amber,
-            ),
+            Image.asset('assets/images/brocombi.png'),
             Container(
               height: 100,
               color: Colors.green,
