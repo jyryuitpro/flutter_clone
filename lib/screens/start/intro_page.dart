@@ -15,11 +15,9 @@ class IntroPage extends StatelessWidget {
           children: [
             Text(
               '브로콤비',
-              style: TextStyle(
-                fontSize: 30,
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headline3!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
             ),
             ExtendedImage.asset('assets/images/brocombi_intro.png'),
             Text(
@@ -44,7 +42,9 @@ class IntroPage extends StatelessWidget {
                   },
                   child: Text(
                     '내 동네 설정하고 시작하기',
+                    style: Theme.of(context).textTheme.button,
                   ),
+                  style: TextButton.styleFrom(backgroundColor: Theme.of(context).primaryColor),
                 ),
               ],
             ),
