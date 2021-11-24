@@ -13,16 +13,23 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       future: Future.delayed(Duration(seconds: 3), () => 100),
       builder: (context, snapshot) {
-        if(snapshot.hasError) {
-          print('error occur while loading.');
-          return Text('Error occur');
-        } else if(snapshot.hasData) {
-          return BroCombi();
-        } else {
-          return SplashScreen();
-        }
-      }
+        return AnimatedSwitcher(
+          duration: Duration(milliseconds: 300),
+          child: _splashLoadingWidget(snapshot),
+        );
+      },
     );
+  }
+
+  StatelessWidget _splashLoadingWidget(AsyncSnapshot<Object?> snapshot) {
+    if (snapshot.hasError) {
+      print('error occur while loading.');
+      return Text('Error occur');
+    } else if (snapshot.hasData) {
+      return BroCombi();
+    } else {
+      return SplashScreen();
+    }
   }
 }
 
@@ -36,4 +43,3 @@ class BroCombi extends StatelessWidget {
     );
   }
 }
-
