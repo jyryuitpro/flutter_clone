@@ -7,28 +7,48 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('브로콤비'),
-        ExtendedImage.asset('assets/images/brocombi_intro.png'),
-        Text('우리 동네 중고 직거래 브로콤비'),
-        Text('브로콤비는 동네 직거래 마켓이에요.'),
-        Text('내 동네를 설정하고 시작해보세요!'),
-        TextButton(
-          onPressed: () {
-            logger.d('on text button clicked!!!');
-          },
-          child: Text(
-            '내 동네 설정하고 시작하기',
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            '브로콤비',
             style: TextStyle(
-              color: Colors.white,
+              fontSize: 30,
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.blue,
+          ExtendedImage.asset('assets/images/brocombi_intro.png'),
+          Text(
+            '우리 동네 중고 직거래 브로콤비',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+          Text(
+            '브로콤비는 동네 직거래 마켓이에요.\n 내 동네를 설정하고 시작해보세요!',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              logger.d('on text button clicked!!!');
+            },
+            child: Text(
+              '내 동네 설정하고 시작하기',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.blue,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
