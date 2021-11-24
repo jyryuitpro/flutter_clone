@@ -10,8 +10,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SplashScreen(),
+    return BroCombi();
+  }
+}
+
+class BroCombi extends StatelessWidget {
+  const BroCombi({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.amber,
     );
   }
 }
+
