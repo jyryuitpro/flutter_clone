@@ -1,10 +1,22 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/routes/locations.dart';
+import 'package:flutter_clone/screens/auth_screen.dart';
 import 'package:flutter_clone/screens/splash_screen.dart';
 import 'package:flutter_clone/utils/logger.dart';
 
 final _routerDelegate = BeamerDelegate(
+  guards: [
+    BeamGuard(
+      pathBlueprints: ['/'],
+      check: (context, location) {
+        return true;
+      },
+      showPage: BeamPage(
+        child: AuthScreen(),
+      ),
+    ),
+  ],
   locationBuilder: BeamerLocationBuilder(
     beamLocations: [
       HomeLocation(),
