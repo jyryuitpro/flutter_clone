@@ -1,6 +1,16 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clone/splash_screen.dart';
+import 'package:flutter_clone/routes/locations.dart';
+import 'package:flutter_clone/screens/splash_screen.dart';
 import 'package:flutter_clone/utils/logger.dart';
+
+final _routerDelegate = BeamerDelegate(
+  locationBuilder: BeamerLocationBuilder(
+    beamLocations: [
+      HomeLocation(),
+    ],
+  ),
+);
 
 void main() {
   logger.d('My first log by logger!!');
@@ -40,8 +50,10 @@ class BroCombi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routeInformationParser: BeamerParser(),
+      routerDelegate: _routerDelegate,
     );
   }
 }
