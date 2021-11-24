@@ -7,63 +7,75 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              '브로콤비',
-              style: Theme.of(context).textTheme.headline3!.copyWith(
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        Size size = MediaQuery.of(context).size;
+        final imgSize = size.width - 32;
+        final sizeOfPosImg = imgSize * 0.1;
+
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  '브로콤비',
+                  style: Theme.of(context).textTheme.headline3!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
-            ),
-            Stack(
-              children: [
-                ExtendedImage.asset('assets/images/brocombi_intro.png'),
-                Positioned(
-                  left: 50,
-                  right: 50,
-                  top: 50,
-                  bottom: 50,
-                  child: ExtendedImage.asset(
-                      'assets/images/brocombi_intro_position.png'),
                 ),
-              ],
-            ),
-            Text(
-              '우리 동네 중고 직거래 브로콤비',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              '브로콤비는 동네 직거래 마켓이에요.\n 내 동네를 설정하고 시작해보세요!',
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    logger.d('on text button clicked!!!');
-                  },
-                  child: Text(
-                    '내 동네 설정하고 시작하기',
-                    style: Theme.of(context).textTheme.button,
+                SizedBox(
+                  width: imgSize,
+                  height: imgSize,
+                  child: Stack(
+                    children: [
+                      ExtendedImage.asset('assets/images/brocombi_intro.png'),
+                      Positioned(
+                        left: imgSize * 0.45,
+                        width: sizeOfPosImg,
+                        top: imgSize * 0.45,
+                        height: sizeOfPosImg,
+                        child: ExtendedImage.asset(
+                            'assets/images/brocombi_intro_position.png'),
+                      ),
+                    ],
                   ),
-                  style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor),
+                ),
+                Text(
+                  '우리 동네 중고 직거래 브로콤비',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '브로콤비는 동네 직거래 마켓이에요.\n 내 동네를 설정하고 시작해보세요!',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        logger.d('on text button clicked!!!');
+                      },
+                      child: Text(
+                        '내 동네 설정하고 시작하기',
+                        style: Theme.of(context).textTheme.button,
+                      ),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
