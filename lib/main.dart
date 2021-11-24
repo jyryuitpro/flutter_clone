@@ -10,7 +10,7 @@ final _routerDelegate = BeamerDelegate(
     BeamGuard(
       pathBlueprints: ['/'],
       check: (context, location) {
-        return true;
+        return false;
       },
       showPage: BeamPage(
         child: AuthScreen(),

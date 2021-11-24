@@ -6,8 +6,18 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Auth Screen!!'),
+      body: PageView(
+        children: [
+          Center(
+            child: Text('Auth Screen!!'),
+          ),
+          Container(
+            color: Colors.accents[2],
+          ),
+          Container(
+            color: Colors.accents[5],
+          ),
+        ],
       ),
     );
   }
