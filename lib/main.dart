@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/splash_screen.dart';
+import 'package:flutter_clone/utils/logger.dart';
 
 void main() {
+  logger.d('My first log by logger!!');
   runApp(const MyApp());
 }
 
