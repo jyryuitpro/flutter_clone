@@ -10,7 +10,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BroCombi();
+    return FutureBuilder(
+      future: Future.delayed(Duration(seconds: 3), () => 100),
+      builder: (context, snapshot) {
+        if(snapshot.hasError) {
+          print('error occur while loading.');
+          return Text('Error occur');
+        } else if(snapshot.hasData) {
+          return BroCombi();
+        } else {
+          return SplashScreen();
+        }
+      }
+    );
   }
 }
 
