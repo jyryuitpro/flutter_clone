@@ -64,6 +64,9 @@ class BroCombi extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
       routeInformationParser: BeamerParser(),
       routerDelegate: _routerDelegate,
     );

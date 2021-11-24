@@ -17,7 +17,7 @@ class IntroPage extends StatelessWidget {
               '브로콤비',
               style: TextStyle(
                 fontSize: 30,
-                color: Colors.red,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -44,12 +44,6 @@ class IntroPage extends StatelessWidget {
                   },
                   child: Text(
                     '내 동네 설정하고 시작하기',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue,
                   ),
                 ),
               ],
