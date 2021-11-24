@@ -19,7 +19,19 @@ class IntroPage extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
             ),
-            ExtendedImage.asset('assets/images/brocombi_intro.png'),
+            Stack(
+              children: [
+                ExtendedImage.asset('assets/images/brocombi_intro.png'),
+                Positioned(
+                  left: 50,
+                  right: 50,
+                  top: 50,
+                  bottom: 50,
+                  child: ExtendedImage.asset(
+                      'assets/images/brocombi_intro_position.png'),
+                ),
+              ],
+            ),
             Text(
               '우리 동네 중고 직거래 브로콤비',
               style: TextStyle(
@@ -44,7 +56,8 @@ class IntroPage extends StatelessWidget {
                     '내 동네 설정하고 시작하기',
                     style: Theme.of(context).textTheme.button,
                   ),
-                  style: TextButton.styleFrom(backgroundColor: Theme.of(context).primaryColor),
+                  style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor),
                 ),
               ],
             ),
