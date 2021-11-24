@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clone/screens/start/address_page.dart';
 import 'package:flutter_clone/screens/start/intro_page.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -11,12 +12,10 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
+        // physics: NeverScrollableScrollPhysics(),
         children: [
           IntroPage(_pageController),
-          Container(
-            color: Colors.accents[2],
-          ),
+          AddressPage(),
           Container(
             color: Colors.accents[5],
           ),
