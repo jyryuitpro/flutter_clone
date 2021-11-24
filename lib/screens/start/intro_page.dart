@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clone/utils/logger.dart';
 
 class IntroPage extends StatelessWidget {
-  const IntroPage({Key? key}) : super(key: key);
+  PageController pageController;
+
+  IntroPage(this.pageController, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class IntroPage extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () {
+                        pageController.animateToPage(1, duration: Duration(microseconds: 500), curve: Curves.ease);
                         logger.d('on text button clicked!!!');
                       },
                       child: Text(
