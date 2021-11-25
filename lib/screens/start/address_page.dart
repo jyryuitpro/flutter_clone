@@ -1,5 +1,7 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clone/utils/logger.dart';
 
 class AddressPage extends StatelessWidget {
   const AddressPage({Key? key}) : super(key: key);
@@ -48,6 +50,18 @@ class AddressPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 30,
+              itemBuilder: (context, index) {
+                // logger.d('index: $index');
+                return ListTile(
+                  title: Text('address $index'),
+                  subtitle: Text('address $index'),
+                );
+              },
+            ),
           ),
         ],
       ),
