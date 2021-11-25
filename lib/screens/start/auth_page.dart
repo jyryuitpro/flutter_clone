@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clone/constants/common_size.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
+
+  AuthPage({Key? key}) : super(key: key);
+
+  @override
+  State<AuthPage> createState() => _AuthPageState();
+}
+
+const duration = Duration(microseconds: 300);
+
+class _AuthPageState extends State<AuthPage> {
   final inputBorder = OutlineInputBorder(
     borderSide: BorderSide(
       color: Colors.grey,
@@ -11,12 +21,9 @@ class AuthPage extends StatelessWidget {
   );
 
   TextEditingController _phoneNumberController = TextEditingController(text: '010');
-
   TextEditingController _codeController = TextEditingController();
-
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  AuthPage({Key? key}) : super(key: key);
+  VerificationStatus _verificationStatus = VerificationStatus.none;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,8 @@ class AuthPage extends StatelessWidget {
                       SizedBox(
                         width: common_small_padding,
                       ),
-                      Text('브로콤비는 휴대폰 번호로 가입해요.\n번호는 안전하게 보관되며\n어디에도 공개되지 않아요.'),
+                      Text(
+                          '브로콤비는 휴대폰 번호로 가입해요.\n번호는 안전하게 보관되며\n어디에도 공개되지 않아요.'),
                     ],
                   ),
                   SizedBox(
@@ -65,7 +73,7 @@ class AuthPage extends StatelessWidget {
                       focusedBorder: inputBorder,
                     ),
                     validator: (phoneNumber) {
-                      if(phoneNumber != null && phoneNumber.length == 13) {
+                      if (phoneNumber != null && phoneNumber.length == 13) {
                         return null;
                       } else {
                         return '전화번호를 정확하게 입력해주세요.';
@@ -77,9 +85,14 @@ class AuthPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      if(_formKey.currentState != null) {
+                      if (_formKey.currentState != null) {
                         bool passed = _formKey.currentState!.validate();
                         print(passed);
+                        if(passed){
+                         setState(() {
+                           _verificationStatus = VerificationStatus.codeSent;
+                         });
+                        }
                       }
                     },
                     child: Text('인증문자 발송'),
@@ -87,23 +100,36 @@ class AuthPage extends StatelessWidget {
                   SizedBox(
                     height: common_padding,
                   ),
-                  TextFormField(
-                    controller: _codeController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      MaskedInputFormatter('000000'),
-                    ],
-                    decoration: InputDecoration(
-                      border: inputBorder,
-                      focusedBorder: inputBorder,
+                  AnimatedOpacity(
+                    duration: Duration(microseconds: 300),
+                    curve: Curves.easeInOut,
+                    opacity: _verificationStatus == VerificationStatus.none ? 0 : 1,
+                    child: AnimatedContainer(
+                      duration: duration,
+                      curve: Curves.easeInOut,
+                      height: getVerificationHeight(_verificationStatus),
+                      child: TextFormField(
+                        controller: _codeController,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          MaskedInputFormatter('000000'),
+                        ],
+                        decoration: InputDecoration(
+                          border: inputBorder,
+                          focusedBorder: inputBorder,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: common_small_padding,
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('인증문자 발송'),
+                  AnimatedContainer(
+                    duration: duration,
+                    height: getVerificationBtnHeight(_verificationStatus),
+                    child: TextButton(
+                      onPressed: () {
+
+                      },
+                      child: Text('인증'),
+                    ),
                   ),
                 ],
               ),
@@ -113,4 +139,33 @@ class AuthPage extends StatelessWidget {
       },
     );
   }
+
+  double getVerificationHeight(VerificationStatus status) {
+    switch(status) {
+      case VerificationStatus.none:
+        return 0;
+      case VerificationStatus.codeSent:
+      case VerificationStatus.verifying:
+      case VerificationStatus.verificationDone:
+        return 60 + common_small_padding;
+    }
+  }
+
+  double getVerificationBtnHeight(VerificationStatus status) {
+    switch(status) {
+      case VerificationStatus.none:
+        return 0;
+      case VerificationStatus.codeSent:
+      case VerificationStatus.verifying:
+      case VerificationStatus.verificationDone:
+        return 40;
+    }
+  }
+}
+
+enum VerificationStatus {
+  none,
+  codeSent,
+  verifying,
+  verificationDone,
 }
