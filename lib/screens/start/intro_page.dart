@@ -1,6 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clone/state/user_provider.dart';
 import 'package:flutter_clone/utils/logger.dart';
+import 'package:provider/provider.dart';
 
 class IntroPage extends StatelessWidget {
   PageController pageController;
@@ -9,6 +11,7 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('current user state: ${context.read<UserProvider>().userState}');
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         Size size = MediaQuery.of(context).size;

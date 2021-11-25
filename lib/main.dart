@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clone/routes/locations.dart';
 import 'package:flutter_clone/screens/start_screen.dart';
 import 'package:flutter_clone/screens/splash_screen.dart';
+import 'package:flutter_clone/state/user_provider.dart';
 import 'package:flutter_clone/utils/logger.dart';
+import 'package:provider/provider.dart';
 
 final _routerDelegate = BeamerDelegate(
   guards: [
     BeamGuard(
       pathBlueprints: ['/'],
       check: (context, location) {
-        return false;
+        return context.watch<UserProvider>().userState;
       },
       showPage: BeamPage(
         child: StartScreen(),
@@ -82,32 +84,37 @@ class BroCombi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xff71d686)),
-        fontFamily: 'Jalnan',
-        hintColor: Colors.grey,
-        textTheme: TextTheme(
-          button: TextStyle(color: Colors.white),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            backgroundColor: createMaterialColor(
-              Color(0xff71d686),
+    return ChangeNotifierProvider<UserProvider>(
+      create: (BuildContext context) {
+        return UserProvider();
+      },
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: createMaterialColor(Color(0xff71d686)),
+          fontFamily: 'Jalnan',
+          hintColor: Colors.grey,
+          textTheme: TextTheme(
+            button: TextStyle(color: Colors.white),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              backgroundColor: createMaterialColor(
+                Color(0xff71d686),
+              ),
+              primary: Colors.white,
+              minimumSize: Size(40, 40),
             ),
-            primary: Colors.white,
-            minimumSize: Size(40, 40),
+          ),
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 2,
+            toolbarTextStyle: TextStyle(color: Colors.black87),
           ),
         ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white,
-          elevation: 2,
-          toolbarTextStyle: TextStyle(color: Colors.black87),
-        ),
+        routeInformationParser: BeamerParser(),
+        routerDelegate: _routerDelegate,
       ),
-      routeInformationParser: BeamerParser(),
-      routerDelegate: _routerDelegate,
     );
   }
 }
