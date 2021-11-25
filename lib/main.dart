@@ -1,7 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/routes/locations.dart';
-import 'package:flutter_clone/screens/auth_screen.dart';
+import 'package:flutter_clone/screens/start_screen.dart';
 import 'package:flutter_clone/screens/splash_screen.dart';
 import 'package:flutter_clone/utils/logger.dart';
 
@@ -13,7 +13,7 @@ final _routerDelegate = BeamerDelegate(
         return false;
       },
       showPage: BeamPage(
-        child: AuthScreen(),
+        child: StartScreen(),
       ),
     ),
   ],
@@ -88,7 +88,14 @@ class BroCombi extends StatelessWidget {
         primarySwatch: createMaterialColor(Color(0xff71d686)),
         fontFamily: 'Jalnan',
         hintColor: Colors.grey,
-        textTheme: TextTheme(button: TextStyle(color: Colors.white),),
+        textTheme: TextTheme(
+          button: TextStyle(color: Colors.white),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 2,
+          toolbarTextStyle: TextStyle(color: Colors.black87),
+        ),
       ),
       routeInformationParser: BeamerParser(),
       routerDelegate: _routerDelegate,

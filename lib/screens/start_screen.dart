@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/screens/start/address_page.dart';
+import 'package:flutter_clone/screens/start/auth_page.dart';
 import 'package:flutter_clone/screens/start/intro_page.dart';
 
-class AuthScreen extends StatelessWidget {
+class StartScreen extends StatelessWidget {
   PageController _pageController = PageController();
 
-  AuthScreen({Key? key}) : super(key: key);
+  StartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,7 @@ class AuthScreen extends StatelessWidget {
         children: [
           IntroPage(_pageController),
           AddressPage(),
-          Container(
-            color: Colors.accents[5],
-          ),
+          AuthPage(),
         ],
       ),
     );

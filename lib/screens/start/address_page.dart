@@ -1,7 +1,5 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clone/utils/logger.dart';
 
 class AddressPage extends StatelessWidget {
   const AddressPage({Key? key}) : super(key: key);
