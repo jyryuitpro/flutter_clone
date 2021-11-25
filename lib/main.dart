@@ -91,6 +91,15 @@ class BroCombi extends StatelessWidget {
         textTheme: TextTheme(
           button: TextStyle(color: Colors.white),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            backgroundColor: createMaterialColor(
+              Color(0xff71d686),
+            ),
+            primary: Colors.white,
+            minimumSize: Size(40, 40),
+          ),
+        ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 2,

@@ -41,10 +41,6 @@ class AddressPage extends StatelessWidget {
               '현재위치로 찾기',
               style: Theme.of(context).textTheme.button,
             ),
-            style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
-              minimumSize: Size(10, 40),
-            ),
           ),
           Expanded(
             child: ListView.builder(

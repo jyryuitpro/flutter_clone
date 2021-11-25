@@ -10,7 +10,8 @@ class AuthPage extends StatelessWidget {
     ),
   );
 
-  TextEditingController _textEditingController = TextEditingController(text: '010');
+  TextEditingController _textEditingController =
+      TextEditingController(text: '010');
 
   AuthPage({Key? key}) : super(key: key);
 
@@ -30,6 +31,7 @@ class AuthPage extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(common_padding),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   children: [
@@ -57,6 +59,34 @@ class AuthPage extends StatelessWidget {
                     border: inputBorder,
                     focusedBorder: inputBorder,
                   ),
+                ),
+                SizedBox(
+                  height: common_small_padding,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text('인증문자 발송'),
+                ),
+                SizedBox(
+                  height: common_padding,
+                ),
+                TextFormField(
+                  controller: _textEditingController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    MaskedInputFormatter('000 0000 0000'),
+                  ],
+                  decoration: InputDecoration(
+                    border: inputBorder,
+                    focusedBorder: inputBorder,
+                  ),
+                ),
+                SizedBox(
+                  height: common_small_padding,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text('인증문자 발송'),
                 ),
               ],
             ),
