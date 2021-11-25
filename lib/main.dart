@@ -110,6 +110,7 @@ class BroCombi extends StatelessWidget {
             backgroundColor: Colors.white,
             elevation: 2,
             toolbarTextStyle: TextStyle(color: Colors.black87),
+            actionsIconTheme: IconThemeData(color: Colors.black87),
           ),
         ),
         routeInformationParser: BeamerParser(),
