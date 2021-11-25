@@ -87,7 +87,7 @@ class BroCombi extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: createMaterialColor(Color(0xff71d686)),
         fontFamily: 'Jalnan',
-        hintColor: Colors.grey[350],
+        hintColor: Colors.grey,
         textTheme: TextTheme(button: TextStyle(color: Colors.white),),
       ),
       routeInformationParser: BeamerParser(),
