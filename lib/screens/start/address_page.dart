@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clone/data/address_model_coordinate.dart';
+import 'package:flutter_clone/data/address_model_coordinate.dart';
 import 'package:flutter_clone/data/address_model_search.dart';
 import 'package:flutter_clone/screens/start/address_service.dart';
 import 'package:flutter_clone/utils/logger.dart';
@@ -16,6 +18,8 @@ class _AddressPageState extends State<AddressPage> {
   TextEditingController _addressController = TextEditingController();
 
   AddressModelSearch? _addressModel;
+  List<AddressModelCoordinate> _addressModelCoordinate = [];
+  bool _isGettingLocation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,12 @@ class _AddressPageState extends State<AddressPage> {
               // if(text.isNotEmpty) {
               //   AddressService().searchAddressBystr(text);
               // }
+              _addressModel = null;
+
+              setState(() {
+                _isGettingLocation = true;
+              });
+
               Location location = new Location();
 
               bool _serviceEnabled;
@@ -80,15 +90,21 @@ class _AddressPageState extends State<AddressPage> {
 
               _locationData = await location.getLocation();
               logger.d(_locationData);
-              AddressService().findAddressByCoordinate(log: _locationData.longitude!, lat: _locationData.latitude!);
+              List<AddressModelCoordinate> addressModelCoordinate = await AddressService().findAddressByCoordinate(log: _locationData.longitude!, lat: _locationData.latitude!);
+
+              _addressModelCoordinate.addAll(addressModelCoordinate);
+
+              setState(() {
+                _isGettingLocation = false;
+              });
             },
-            icon: Icon(
+            icon: _isGettingLocation ? CircularProgressIndicator() : Icon(
               CupertinoIcons.compass,
               color: Colors.white,
               size: 20,
             ),
             label: Text(
-              '현재위치로 찾기',
+              _isGettingLocation ? '현재위치를 찾는 중 입니다.' : '현재위치로 찾기',
               style: Theme.of(context).textTheme.button,
             ),
           ),
