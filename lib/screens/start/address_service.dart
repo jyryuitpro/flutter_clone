@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clone/constants/keys.dart';
+import 'package:flutter_clone/data/address_model.dart';
 import 'package:flutter_clone/utils/logger.dart';
 
 class AddressService {
@@ -31,5 +32,10 @@ class AddressService {
       logger.e(e.message);
     });
     logger.d(response);
+
+    // logger.d(response.data is Map);
+    // logger.d(response.data['response']['result']);
+    AddressModel addressModel = AddressModel.fromJson(response.data['response']);
+    logger.d(addressModel);
   }
 }
