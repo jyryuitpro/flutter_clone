@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clone/screens/start/address_service.dart';
 
 class AddressPage extends StatelessWidget {
-  const AddressPage({Key? key}) : super(key: key);
+  AddressPage({Key? key}) : super(key: key);
+
+  TextEditingController _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +15,7 @@ class AddressPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
+            controller: _addressController,
             decoration: const InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
@@ -31,7 +35,12 @@ class AddressPage extends StatelessWidget {
             ),
           ),
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              final text = _addressController.text;
+              if(text.isNotEmpty) {
+                AddressService().searchAddressBystr(text);
+              }
+            },
             icon: Icon(
               CupertinoIcons.compass,
               color: Colors.white,
