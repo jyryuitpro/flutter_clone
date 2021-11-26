@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clone/data/address_model.dart';
+import 'package:flutter_clone/data/address_model_search.dart';
 import 'package:flutter_clone/screens/start/address_service.dart';
 import 'package:flutter_clone/utils/logger.dart';
 import 'package:location/location.dart';
@@ -15,7 +15,7 @@ class AddressPage extends StatefulWidget {
 class _AddressPageState extends State<AddressPage> {
   TextEditingController _addressController = TextEditingController();
 
-  AddressModel? _addressModel;
+  AddressModelSearch? _addressModel;
 
   @override
   Widget build(BuildContext context) {

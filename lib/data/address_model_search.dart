@@ -1,15 +1,15 @@
 /// page : {"total":"1","current":"1","size":"10"}
 /// result : {"crs":"EPSG:900913","type":"address","items":[{"id":"4113510900106240000","address":{"zipcode":"13487","category":"road","road":"경기도 성남시 분당구 판교로 242 (삼평동)","parcel":"삼평동 624","bldnm":"","bldnmdc":""},"point":{"x":"14148853.48172358","y":"4495338.919111188"}}]}
 
-class AddressModel {
-  AddressModel({
+class AddressModelSearch {
+  AddressModelSearch({
       Page? page, 
       Result? result,}){
     _page = page;
     _result = result;
 }
 
-  AddressModel.fromJson(dynamic json) {
+  AddressModelSearch.fromJson(dynamic json) {
     _page = json['page'] != null ? Page.fromJson(json['page']) : null;
     _result = json['result'] != null ? Result.fromJson(json['result']) : null;
   }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clone/constants/keys.dart';
-import 'package:flutter_clone/data/address_model.dart';
+import 'package:flutter_clone/data/address_model_coordinate.dart';
+import 'package:flutter_clone/data/address_model_search.dart';
 import 'package:flutter_clone/utils/logger.dart';
 
 class AddressService {
@@ -18,7 +19,7 @@ class AddressService {
     // }
   }
 
-  Future<AddressModel> searchAddressBystr(String text) async {
+  Future<AddressModelSearch> searchAddressBystr(String text) async {
     final formData = {
       'key': VWORLD_KEY,
       'request': 'search',
@@ -35,26 +36,72 @@ class AddressService {
 
     // logger.d(response.data is Map);
     // logger.d(response.data['response']['result']);
-    AddressModel addressModel = AddressModel.fromJson(response.data['response']);
-    logger.d(addressModel);
+    AddressModelSearch addressModelSearch = AddressModelSearch.fromJson(response.data['response']);
+    logger.d(addressModelSearch);
 
-    return addressModel;
+    return addressModelSearch;
   }
 
-  Future<void> findAddressByCoordinate({required double log, required double lat}) async {
-    final formData = {
+  Future<List<AddressModelCoordinate>> findAddressByCoordinate({required double log, required double lat}) async {
+    final List<Map<String, dynamic>> formDatas = <Map<String, dynamic>>[];
+
+    formDatas.add({
       'key': VWORLD_KEY,
       'service': 'address',
       'request': 'getAddress',
       'point': '$log,$lat',
       'type': 'BOTH',
-    };
-
-    final response = await Dio().get('http://api.vworld.kr/req/address', queryParameters: formData).catchError((e) {
-      logger.e(e.message);
     });
-    logger.d(response);
 
-    return;
+    formDatas.add({
+      'key': VWORLD_KEY,
+      'service': 'address',
+      'request': 'getAddress',
+      'point': '${log-0.01},$lat',
+      'type': 'BOTH',
+    });
+
+    formDatas.add({
+      'key': VWORLD_KEY,
+      'service': 'address',
+      'request': 'getAddress',
+      'point': '${log+0.01},$lat',
+      'type': 'BOTH',
+    });
+
+    formDatas.add({
+      'key': VWORLD_KEY,
+      'service': 'address',
+      'request': 'getAddress',
+      'point': '$log,${lat-0.01}',
+      'type': 'BOTH',
+    });
+
+    formDatas.add({
+      'key': VWORLD_KEY,
+      'service': 'address',
+      'request': 'getAddress',
+      'point': '$log,${lat+0.01}',
+      'type': 'BOTH',
+    });
+
+    List<AddressModelCoordinate> addressModelCoordinates = [];
+
+    for(Map<String, dynamic> formData in formDatas) {
+      final response = await Dio().get('http://api.vworld.kr/req/address', queryParameters: formData).catchError((e) {
+        logger.e(e.message);
+      });
+
+      logger.d(response);
+
+      AddressModelCoordinate addressModelCoordinate = AddressModelCoordinate.fromJson(response.data['response']);
+
+      if(response.data['status'] == 'OK') {
+        addressModelCoordinates.add(addressModelCoordinate);
+        logger.d(addressModelCoordinate);
+      }
+    }
+
+    return addressModelCoordinates;
   }
 }
