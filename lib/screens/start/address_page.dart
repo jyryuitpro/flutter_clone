@@ -6,6 +6,7 @@ import 'package:flutter_clone/data/address_model_search.dart';
 import 'package:flutter_clone/screens/start/address_service.dart';
 import 'package:flutter_clone/utils/logger.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressPage extends StatefulWidget {
   AddressPage({Key? key}) : super(key: key);
@@ -134,6 +135,9 @@ class _AddressPageState extends State<AddressPage> {
                     return Container();
                   } else {
                     return ListTile(
+                      onTap: () async {
+                        _saveAddressOnSharedPreference(_addressModelSearch!.result!.items![index].address!.road ?? '');
+                      },
                       title: Text(_addressModelSearch!.result!.items![index].address!.road ?? ''),
                       subtitle: Text(_addressModelSearch!.result!.items![index].address!.parcel ?? ''),
                     );
@@ -153,9 +157,10 @@ class _AddressPageState extends State<AddressPage> {
                     return Container();
                   } else {
                     return ListTile(
-                      title: Text(
-                          _addressModelCoordinates[index].result![0].text ??
-                              ''),
+                      onTap: () async {
+                        _saveAddressOnSharedPreference(_addressModelCoordinates[index].result![0].text ?? '');
+                      },
+                      title: Text(_addressModelCoordinates[index].result![0].text ?? ''),
                       subtitle: Text(
                           _addressModelCoordinates[index].result![0].zipcode ??
                               ''),
@@ -167,5 +172,10 @@ class _AddressPageState extends State<AddressPage> {
         ],
       ),
     );
+  }
+
+  _saveAddressOnSharedPreference(String address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', address);
   }
 }
