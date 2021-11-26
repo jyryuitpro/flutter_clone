@@ -80,6 +80,7 @@ class _AddressPageState extends State<AddressPage> {
 
               _locationData = await location.getLocation();
               logger.d(_locationData);
+              AddressService().findAddressByCoordinate(log: _locationData.longitude!, lat: _locationData.latitude!);
             },
             icon: Icon(
               CupertinoIcons.compass,
