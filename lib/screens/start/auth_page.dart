@@ -191,7 +191,7 @@ class _AuthPageState extends State<AuthPage> {
       _verificationStatus = VerificationStatus.verificationDone;
     });
 
-    // context.read<UserProvider>().setUserAuth(true);
+    context.read<UserProvider>().setUserAuth(true);
   }
 
   _getAddress() async {
