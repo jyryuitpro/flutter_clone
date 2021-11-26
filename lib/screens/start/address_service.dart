@@ -18,7 +18,7 @@ class AddressService {
     // }
   }
 
-  void searchAddressBystr(String text) async {
+  Future<AddressModel> searchAddressBystr(String text) async {
     final formData = {
       'key': VWORLD_KEY,
       'request': 'search',
@@ -37,5 +37,7 @@ class AddressService {
     // logger.d(response.data['response']['result']);
     AddressModel addressModel = AddressModel.fromJson(response.data['response']);
     logger.d(addressModel);
+
+    return addressModel;
   }
 }
