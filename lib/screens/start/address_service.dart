@@ -92,16 +92,16 @@ class AddressService {
         logger.e(e.message);
       });
 
-      logger.d(response);
+      // logger.d(response);
 
       AddressModelCoordinate addressModelCoordinate = AddressModelCoordinate.fromJson(response.data['response']);
 
       if(response.data['response']['status'] == 'OK') {
         addressModelCoordinates.add(addressModelCoordinate);
-        logger.d(addressModelCoordinate);
+        // logger.d(addressModelCoordinate);
       }
     }
-    logger.d(addressModelCoordinates);
+    // logger.d(addressModelCoordinates);
 
     return addressModelCoordinates;
   }

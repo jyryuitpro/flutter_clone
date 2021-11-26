@@ -17,8 +17,8 @@ class AddressPage extends StatefulWidget {
 class _AddressPageState extends State<AddressPage> {
   TextEditingController _addressController = TextEditingController();
 
-  AddressModelSearch? _addressModel;
-  List<AddressModelCoordinate> _addressModelCoordinate = [];
+  AddressModelSearch? _addressModelSearch;
+  List<AddressModelCoordinate> _addressModelCoordinates = [];
   bool _isGettingLocation = false;
 
   @override
@@ -31,7 +31,8 @@ class _AddressPageState extends State<AddressPage> {
           TextFormField(
             controller: _addressController,
             onFieldSubmitted: (text) async {
-              _addressModel = await AddressService().searchAddressBystr(text);
+              _addressModelCoordinates.clear();
+              _addressModelSearch = await AddressService().searchAddressBystr(text);
               setState(() {});
             },
             decoration: const InputDecoration(
@@ -58,7 +59,8 @@ class _AddressPageState extends State<AddressPage> {
               // if(text.isNotEmpty) {
               //   AddressService().searchAddressBystr(text);
               // }
-              _addressModel = null;
+              _addressModelSearch = null;
+              _addressModelCoordinates.clear();
 
               setState(() {
                 _isGettingLocation = true;
@@ -87,13 +89,10 @@ class _AddressPageState extends State<AddressPage> {
               }
 
               _locationData = await location.getLocation();
-              logger.d(_locationData);
-              List<AddressModelCoordinate> addressModelCoordinate =
-                  await AddressService().findAddressByCoordinate(
-                      log: _locationData.longitude!,
-                      lat: _locationData.latitude!);
+              List<AddressModelCoordinate> addressModelCoordinates = await AddressService().findAddressByCoordinate(log: _locationData.longitude!, lat: _locationData.latitude!);
 
-              _addressModelCoordinate.addAll(addressModelCoordinate);
+              _addressModelCoordinates.addAll(addressModelCoordinates);
+              logger.d(_addressModelCoordinates);
 
               setState(() {
                 _isGettingLocation = false;
@@ -117,34 +116,54 @@ class _AddressPageState extends State<AddressPage> {
               style: Theme.of(context).textTheme.button,
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              itemCount: _addressModel == null ||
-                      _addressModel!.result == null ||
-                      _addressModel!.result!.items == null
-                  ? 0
-                  : _addressModel!.result!.items!.length,
-              itemBuilder: (context, index) {
-                // logger.d('index: $index');
-                if (_addressModel == null ||
-                    _addressModel!.result == null ||
-                    _addressModel!.result!.items == null ||
-                    _addressModel!.result!.items![index].address == null) {
-                  return Container();
-                } else {
-                  return ListTile(
-                    title: Text(
-                        _addressModel!.result!.items![index].address!.road ??
-                            ''),
-                    subtitle: Text(
-                        _addressModel!.result!.items![index].address!.parcel ??
-                            ''),
-                  );
-                }
-              },
+          if(_addressModelSearch != null)
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                itemCount: _addressModelSearch == null ||
+                        _addressModelSearch!.result == null ||
+                        _addressModelSearch!.result!.items == null
+                    ? 0
+                    : _addressModelSearch!.result!.items!.length,
+                itemBuilder: (context, index) {
+                  // logger.d('index: $index');
+                  if (_addressModelSearch == null ||
+                      _addressModelSearch!.result == null ||
+                      _addressModelSearch!.result!.items == null ||
+                      _addressModelSearch!.result!.items![index].address == null) {
+                    return Container();
+                  } else {
+                    return ListTile(
+                      title: Text(_addressModelSearch!.result!.items![index].address!.road ?? ''),
+                      subtitle: Text(_addressModelSearch!.result!.items![index].address!.parcel ?? ''),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
+          if(_addressModelCoordinates.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                itemCount: _addressModelCoordinates.length,
+                itemBuilder: (context, index) {
+                  // logger.d('index: $index');
+                  if (_addressModelCoordinates[index].result == null ||
+                      _addressModelCoordinates[index].result!.isEmpty) {
+                    return Container();
+                  } else {
+                    return ListTile(
+                      title: Text(
+                          _addressModelCoordinates[index].result![0].text ??
+                              ''),
+                      subtitle: Text(
+                          _addressModelCoordinates[index].result![0].zipcode ??
+                              ''),
+                    );
+                  }
+                },
+              ),
+            ),
         ],
       ),
     );
