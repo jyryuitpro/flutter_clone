@@ -32,9 +32,7 @@ class _AddressPageState extends State<AddressPage> {
             controller: _addressController,
             onFieldSubmitted: (text) async {
               _addressModel = await AddressService().searchAddressBystr(text);
-              setState(() {
-
-              });
+              setState(() {});
             },
             decoration: const InputDecoration(
               prefixIcon: Icon(
@@ -90,7 +88,10 @@ class _AddressPageState extends State<AddressPage> {
 
               _locationData = await location.getLocation();
               logger.d(_locationData);
-              List<AddressModelCoordinate> addressModelCoordinate = await AddressService().findAddressByCoordinate(log: _locationData.longitude!, lat: _locationData.latitude!);
+              List<AddressModelCoordinate> addressModelCoordinate =
+                  await AddressService().findAddressByCoordinate(
+                      log: _locationData.longitude!,
+                      lat: _locationData.latitude!);
 
               _addressModelCoordinate.addAll(addressModelCoordinate);
 
@@ -98,11 +99,19 @@ class _AddressPageState extends State<AddressPage> {
                 _isGettingLocation = false;
               });
             },
-            icon: _isGettingLocation ? CircularProgressIndicator() : Icon(
-              CupertinoIcons.compass,
-              color: Colors.white,
-              size: 20,
-            ),
+            icon: _isGettingLocation
+                ? SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  )
+                : Icon(
+                    CupertinoIcons.compass,
+                    color: Colors.white,
+                    size: 20,
+                  ),
             label: Text(
               _isGettingLocation ? '현재위치를 찾는 중 입니다.' : '현재위치로 찾기',
               style: Theme.of(context).textTheme.button,
@@ -111,15 +120,26 @@ class _AddressPageState extends State<AddressPage> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 16),
-              itemCount: _addressModel == null || _addressModel!.result == null || _addressModel!.result!.items == null ? 0 : _addressModel!.result!.items!.length,
+              itemCount: _addressModel == null ||
+                      _addressModel!.result == null ||
+                      _addressModel!.result!.items == null
+                  ? 0
+                  : _addressModel!.result!.items!.length,
               itemBuilder: (context, index) {
                 // logger.d('index: $index');
-                if(_addressModel == null || _addressModel!.result == null || _addressModel!.result!.items == null || _addressModel!.result!.items![index].address == null) {
+                if (_addressModel == null ||
+                    _addressModel!.result == null ||
+                    _addressModel!.result!.items == null ||
+                    _addressModel!.result!.items![index].address == null) {
                   return Container();
                 } else {
                   return ListTile(
-                    title: Text(_addressModel!.result!.items![index].address!.road ?? ''),
-                    subtitle: Text(_addressModel!.result!.items![index].address!.parcel ?? ''),
+                    title: Text(
+                        _addressModel!.result!.items![index].address!.road ??
+                            ''),
+                    subtitle: Text(
+                        _addressModel!.result!.items![index].address!.parcel ??
+                            ''),
                   );
                 }
               },

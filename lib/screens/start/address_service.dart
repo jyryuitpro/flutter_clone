@@ -50,7 +50,7 @@ class AddressService {
       'service': 'address',
       'request': 'getAddress',
       'point': '$log,$lat',
-      'type': 'BOTH',
+      'type': 'PARCEL',
     });
 
     formDatas.add({
@@ -58,7 +58,7 @@ class AddressService {
       'service': 'address',
       'request': 'getAddress',
       'point': '${log-0.01},$lat',
-      'type': 'BOTH',
+      'type': 'PARCEL',
     });
 
     formDatas.add({
@@ -66,7 +66,7 @@ class AddressService {
       'service': 'address',
       'request': 'getAddress',
       'point': '${log+0.01},$lat',
-      'type': 'BOTH',
+      'type': 'PARCEL',
     });
 
     formDatas.add({
@@ -74,7 +74,7 @@ class AddressService {
       'service': 'address',
       'request': 'getAddress',
       'point': '$log,${lat-0.01}',
-      'type': 'BOTH',
+      'type': 'PARCEL',
     });
 
     formDatas.add({
@@ -82,7 +82,7 @@ class AddressService {
       'service': 'address',
       'request': 'getAddress',
       'point': '$log,${lat+0.01}',
-      'type': 'BOTH',
+      'type': 'PARCEL',
     });
 
     List<AddressModelCoordinate> addressModelCoordinates = [];
@@ -96,11 +96,12 @@ class AddressService {
 
       AddressModelCoordinate addressModelCoordinate = AddressModelCoordinate.fromJson(response.data['response']);
 
-      if(response.data['status'] == 'OK') {
+      if(response.data['response']['status'] == 'OK') {
         addressModelCoordinates.add(addressModelCoordinate);
         logger.d(addressModelCoordinate);
       }
     }
+    logger.d(addressModelCoordinates);
 
     return addressModelCoordinates;
   }

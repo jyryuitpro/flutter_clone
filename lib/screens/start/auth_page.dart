@@ -136,7 +136,13 @@ class _AuthPageState extends State<AuthPage> {
                         },
                         child:
                             _verificationStatus == VerificationStatus.verifying
-                                ? CircularProgressIndicator(color: Colors.white,)
+                                ? SizedBox(
+                                    width: 15,
+                                    height: 15,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
                                 : Text('인증'),
                       ),
                     ),
@@ -183,7 +189,7 @@ class _AuthPageState extends State<AuthPage> {
       _verificationStatus = VerificationStatus.verificationDone;
     });
 
-    context.read<UserProvider>().setUserAuth(true);
+    // context.read<UserProvider>().setUserAuth(true);
   }
 }
 
