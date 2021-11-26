@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/data/address_model_coordinate.dart';
-import 'package:flutter_clone/data/address_model_coordinate.dart';
 import 'package:flutter_clone/data/address_model_search.dart';
 import 'package:flutter_clone/screens/start/address_service.dart';
 import 'package:flutter_clone/utils/logger.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressPage extends StatefulWidget {
@@ -21,6 +21,12 @@ class _AddressPageState extends State<AddressPage> {
   AddressModelSearch? _addressModelSearch;
   List<AddressModelCoordinate> _addressModelCoordinates = [];
   bool _isGettingLocation = false;
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +142,7 @@ class _AddressPageState extends State<AddressPage> {
                   } else {
                     return ListTile(
                       onTap: () async {
-                        _saveAddressOnSharedPreference(_addressModelSearch!.result!.items![index].address!.road ?? '');
+                        _saveAddressAndGoToNextPage(_addressModelSearch!.result!.items![index].address!.road ?? '');
                       },
                       title: Text(_addressModelSearch!.result!.items![index].address!.road ?? ''),
                       subtitle: Text(_addressModelSearch!.result!.items![index].address!.parcel ?? ''),
@@ -158,12 +164,10 @@ class _AddressPageState extends State<AddressPage> {
                   } else {
                     return ListTile(
                       onTap: () async {
-                        _saveAddressOnSharedPreference(_addressModelCoordinates[index].result![0].text ?? '');
+                        _saveAddressAndGoToNextPage(_addressModelCoordinates[index].result![0].text ?? '');
                       },
                       title: Text(_addressModelCoordinates[index].result![0].text ?? ''),
-                      subtitle: Text(
-                          _addressModelCoordinates[index].result![0].zipcode ??
-                              ''),
+                      subtitle: Text(_addressModelCoordinates[index].result![0].zipcode ?? ''),
                     );
                   }
                 },
@@ -172,6 +176,11 @@ class _AddressPageState extends State<AddressPage> {
         ],
       ),
     );
+  }
+
+  _saveAddressAndGoToNextPage(String address) async {
+    await _saveAddressOnSharedPreference(address);
+    context.read<PageController>().animateToPage(2, duration: Duration(microseconds: 500), curve: Curves.ease);
   }
 
   _saveAddressOnSharedPreference(String address) async {

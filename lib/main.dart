@@ -28,6 +28,7 @@ final _routerDelegate = BeamerDelegate(
 
 void main() {
   logger.d('My first log by logger!!');
+  Provider.debugCheckInvalidValueType = null;
   runApp(const MyApp());
 }
 

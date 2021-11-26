@@ -6,9 +6,7 @@ import 'package:flutter_clone/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 class IntroPage extends StatelessWidget {
-  PageController pageController;
-
-  IntroPage(this.pageController, {Key? key}) : super(key: key);
+  IntroPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class IntroPage extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () async {
-                        pageController.animateToPage(1, duration: Duration(microseconds: 500), curve: Curves.ease);
+                        context.read<PageController>().animateToPage(1, duration: Duration(microseconds: 500), curve: Curves.ease);
                         logger.d('on text button clicked!!!');
                         // var response = await Dio().get('https://randomuser.me/api/');
                         // logger.d(response);
