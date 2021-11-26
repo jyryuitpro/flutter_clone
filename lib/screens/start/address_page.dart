@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/data/address_model.dart';
 import 'package:flutter_clone/screens/start/address_service.dart';
+import 'package:flutter_clone/utils/logger.dart';
+import 'package:location/location.dart';
 
 class AddressPage extends StatefulWidget {
   AddressPage({Key? key}) : super(key: key);
@@ -49,12 +51,35 @@ class _AddressPageState extends State<AddressPage> {
             ),
           ),
           TextButton.icon(
-            onPressed: () {
+            onPressed: () async {
               // final text = _addressController.text;
               // if(text.isNotEmpty) {
               //   AddressService().searchAddressBystr(text);
               // }
+              Location location = new Location();
 
+              bool _serviceEnabled;
+              PermissionStatus _permissionGranted;
+              LocationData _locationData;
+
+              _serviceEnabled = await location.serviceEnabled();
+              if (!_serviceEnabled) {
+                _serviceEnabled = await location.requestService();
+                if (!_serviceEnabled) {
+                  return;
+                }
+              }
+
+              _permissionGranted = await location.hasPermission();
+              if (_permissionGranted == PermissionStatus.denied) {
+                _permissionGranted = await location.requestPermission();
+                if (_permissionGranted != PermissionStatus.granted) {
+                  return;
+                }
+              }
+
+              _locationData = await location.getLocation();
+              logger.d(_locationData);
             },
             icon: Icon(
               CupertinoIcons.compass,
