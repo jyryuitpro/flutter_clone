@@ -39,6 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      body: IndexedStack(
+        index: _bottomSelectedIndex,
+        children: [
+          Container(color: Colors.accents[0],),
+          Container(color: Colors.accents[3],),
+          Container(color: Colors.accents[6],),
+          Container(color: Colors.accents[9],),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _bottomSelectedIndex,
         type: BottomNavigationBarType.fixed,
