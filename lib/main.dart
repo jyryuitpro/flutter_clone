@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/routes/locations.dart';
+import 'package:flutter_clone/screens/home_screen.dart';
 import 'package:flutter_clone/screens/start_screen.dart';
 import 'package:flutter_clone/screens/splash_screen.dart';
 import 'package:flutter_clone/state/user_provider.dart';
@@ -112,6 +113,10 @@ class BroCombi extends StatelessWidget {
             elevation: 2,
             toolbarTextStyle: TextStyle(color: Colors.black87),
             actionsIconTheme: IconThemeData(color: Colors.black87),
+          ),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            selectedItemColor: Colors.black87,
+            unselectedItemColor: Colors.black54,
           ),
         ),
         routeInformationParser: BeamerParser(),
