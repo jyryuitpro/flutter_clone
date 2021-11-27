@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clone/screens/home/items_page.dart';
 import 'package:flutter_clone/state/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: IndexedStack(
         index: _bottomSelectedIndex,
         children: [
-          Container(color: Colors.accents[0],),
+          ItemsPage(),
           Container(color: Colors.accents[3],),
           Container(color: Colors.accents[6],),
           Container(color: Colors.accents[9],),
