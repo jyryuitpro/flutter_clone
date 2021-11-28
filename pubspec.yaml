@@ -42,6 +42,7 @@ dependencies:
   dio: ^4.0.4
   location: ^4.3.0
   shared_preferences: ^2.0.9
+  firebase_core: ^1.10.0
 
 dev_dependencies:
   flutter_test:
