@@ -10,7 +10,7 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('current user state: ${context.read<UserProvider>().userState}');
+    // logger.d('current user state: ${context.read<UserProvider>().userState}');
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         Size size = MediaQuery.of(context).size;

@@ -1,4 +1,5 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clone/constants/common_size.dart';
 import 'package:flutter_clone/state/user_provider.dart';
@@ -23,8 +24,7 @@ class _AuthPageState extends State<AuthPage> {
     ),
   );
 
-  TextEditingController _phoneNumberController =
-      TextEditingController(text: '010');
+  TextEditingController _phoneNumberController = TextEditingController(text: '010');
   TextEditingController _codeController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   VerificationStatus _verificationStatus = VerificationStatus.none;
@@ -90,14 +90,31 @@ class _AuthPageState extends State<AuthPage> {
                       height: common_small_padding,
                     ),
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState != null) {
                           bool passed = _formKey.currentState!.validate();
                           print(passed);
                           if (passed) {
-                            setState(() {
-                              _verificationStatus = VerificationStatus.codeSent;
-                            });
+                            FirebaseAuth auth = FirebaseAuth.instance;
+                            await auth.verifyPhoneNumber(
+                              phoneNumber: '+821093789025',
+                              verificationCompleted: (PhoneAuthCredential credential) async {
+                                await auth.signInWithCredential(credential);
+                              },
+                              verificationFailed: (FirebaseAuthException e) {
+                                logger.e(e.message);
+                              },
+                              codeSent: (String verificationId, int? resendToken) async {
+                                String smsCode = '891107';
+                                PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+                                await auth.signInWithCredential(credential);
+
+                                // setState(() {
+                                //   _verificationStatus = VerificationStatus.codeSent;
+                                // });
+                              },
+                              codeAutoRetrievalTimeout: (String verificationId) {},
+                            );
                           }
                         }
                       },
@@ -109,9 +126,7 @@ class _AuthPageState extends State<AuthPage> {
                     AnimatedOpacity(
                       duration: Duration(microseconds: 300),
                       curve: Curves.easeInOut,
-                      opacity: _verificationStatus == VerificationStatus.none
-                          ? 0
-                          : 1,
+                      opacity: _verificationStatus == VerificationStatus.none ? 0 : 1,
                       child: AnimatedContainer(
                         duration: duration,
                         curve: Curves.easeInOut,
@@ -191,7 +206,7 @@ class _AuthPageState extends State<AuthPage> {
       _verificationStatus = VerificationStatus.verificationDone;
     });
 
-    context.read<UserProvider>().setUserAuth(true);
+    // context.read<UserProvider>().setUserAuth(true);
   }
 
   _getAddress() async {
